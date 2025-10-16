@@ -16,7 +16,7 @@ The accompanying research write-up is available here:
 # Key Components
 * `compute_qk_eigenvals.ipynb`\
 Downloads pretrained transformer weights, extracts $W_Q$ and $W_K$, and efficiently computes the singular-value spectra of $W_{QK}=W_QW_K^T$.
-Results are stored under {model_family}/data/ for later visualization.\
+Results are stored under {model_family}/data/ for later visualization.
 
 You can specify the target model family via:
 
@@ -38,5 +38,5 @@ For details about the Classifcation_A and Classifcation_B refer to the post link
 # Citation
 If you use or build upon this work, please cite or reference:
 
-Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models
+Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\
 https://github.com/SD-interp/qk-spectral-analysis
