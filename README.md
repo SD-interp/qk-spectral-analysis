@@ -15,11 +15,20 @@ The accompanying research write-up is available here:
 
 ---
 # Key Components
-* `compute_qk_ESD.ipynb`\
-Downloads pretrained transformer weights, extracts $W_Q$ and $W_K$, and efficiently computes the singular-value spectra of $W_{QK}=W_QW_K^T$.
-Results are stored under {model_family}/data/ for later visualization.
+* `Generate_ESDs_and_plots.ipynb`\
+This notebook downloads pretrained transformer weights (e.g., Qwen3-4B),
+extracts the Query and Key projection matrices (`W_Q`, `W_K`),
+computes their singular-value spectra, and generates plots for `Classification_A` and `Classification_B`.
+  * The target model family can be specified by setting the `family` variable.
+Model lists for each family are defined in `models.py`.
 
-You can specify the target model family via:
+  * You can extend support for new models or families by editing `models.py`.
+Each model should follow the standard file and layer naming conventions
+and be accessible as `.safetensors` files.
+
+  * Processed results are saved to `/content/qk-spectral-analysis/{model_family}/data/`.
+
+  * You can specify the target model family via:
 
 ```python
 family = "Qwen3"  # or "Llama", "Gemma2", "Mistral"
@@ -34,7 +43,7 @@ Utility functions for statistical analysis and numerically stable SVD computatio
 Defines model families and corresponding pretrained models.
 
 * **Classification Notebooks**\
-For details about the Classifcation_A and Classifcation_B refer to the post linked above
+For details about the Classifcation_A and Classifcation_B refer to the post linked above.
 
 # Citation
 If you use or build upon this work, please cite or reference:
