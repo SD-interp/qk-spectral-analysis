@@ -6,7 +6,8 @@ Spectral analysis of attention-layer weight matrices in transformer models.
 
 ## Overview
 
-This repository contains code and analysis notebooks for studying the spectral properties of **QK circuits** in large language models (LLMs).
+This repository contains code and analysis notebooks for studying the spectral properties of **QK circuits** in LLMs [(Colab link)](https://colab.research.google.com/drive/1TH_MnMAdMZlacvNmQZUK1N-Tlx7m21P7?usp=drive_link)
+
 
 The accompanying research write-up is available here:  
 👉 [**Post: "Spectral Taxonomy of QK Circuits in Transformer Models"**](https://www.lesswrong.com/posts/Yig9fc7wAxKqG63Do/spectral-taxonomy-of-qk-circuits-in-transformer-models)  
@@ -14,7 +15,7 @@ The accompanying research write-up is available here:
 
 ---
 # Key Components
-* `compute_qk_eigenvals.ipynb`\
+* `compute_qk_ESD.ipynb`\
 Downloads pretrained transformer weights, extracts $W_Q$ and $W_K$, and efficiently computes the singular-value spectra of $W_{QK}=W_QW_K^T$.
 Results are stored under {model_family}/data/ for later visualization.
 
