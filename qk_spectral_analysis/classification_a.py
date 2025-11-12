@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pickle
 from pathlib import Path
+from typing import Callable
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -60,6 +61,7 @@ def generate_cluster_figures(
     n_clusters: int = 6,
     n_bins: int = 24,
     data_root: str | Path = ".",
+    progress: Callable[[int, int, Path], None] | None = None,
 ) -> list[Path]:
     """Generate spectral cluster visualisations for a family."""
 
@@ -68,7 +70,10 @@ def generate_cluster_figures(
     save_loc.mkdir(exist_ok=True, parents=True)
 
     figure_paths: list[Path] = []
-    for eigenvalue_path in sorted(data_location.glob("*.pkl")):
+    eigenvalue_paths = sorted(data_location.glob("*.pkl"))
+    total = len(eigenvalue_paths)
+
+    for index, eigenvalue_path in enumerate(eigenvalue_paths, start=1):
         eigenvals = _load_eigenvalues(eigenvalue_path)
         hists, bin_centers = _build_histograms(eigenvals, n_bins)
 
@@ -153,6 +158,9 @@ def generate_cluster_figures(
         fig.savefig(output_path)
         plt.close(fig)
         figure_paths.append(output_path)
+
+        if progress is not None:
+            progress(index, total, output_path)
 
     return figure_paths
 

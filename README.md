@@ -6,7 +6,12 @@ Spectral analysis of attention-layer weight matrices in transformer models.
 
 ## Overview
 
-This repository contains code and analysis notebooks for studying the spectral properties of **QK circuits** in LLMs [(Colab link)](https://colab.research.google.com/drive/1TH_MnMAdMZlacvNmQZUK1N-Tlx7m21P7?usp=drive_link)
+This repository contains a lightweight Python package plus a single Jupyter
+notebook that orchestrates the end-to-end workflow for studying the spectral
+properties of **QK circuits** in LLMs. The code has been modularised into
+reusable Python modules so that the heavy lifting can run outside of a notebook
+while still allowing interactive exploration from the unified entry point,
+`spectral_analysis_pipeline.ipynb`.
 
 The accompanying research write-up is available here:
 👉 [**Post: "Spectral Taxonomy of QK Circuits in Transformer Models"**](https://www.lesswrong.com/posts/Yig9fc7wAxKqG63Do/spectral-taxonomy-of-qk-circuits-in-transformer-models)
@@ -50,5 +55,5 @@ The legacy notebooks (`Generate_ESDs_and_plots.ipynb`, `Classification_A.ipynb`,
 
 If you use or build upon this work, please cite or reference:
 
-Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\
+Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\\
 https://github.com/SD-interp/qk-spectral-analysis
