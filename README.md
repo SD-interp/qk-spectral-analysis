@@ -8,44 +8,46 @@ Spectral analysis of attention-layer weight matrices in transformer models.
 
 This repository contains code and analysis notebooks for studying the spectral properties of **QK circuits** in LLMs [(Colab link)](https://colab.research.google.com/drive/1TH_MnMAdMZlacvNmQZUK1N-Tlx7m21P7?usp=drive_link)
 
-
-The accompanying research write-up is available here:  
-👉 [**Post: "Spectral Taxonomy of QK Circuits in Transformer Models"**](https://www.lesswrong.com/posts/Yig9fc7wAxKqG63Do/spectral-taxonomy-of-qk-circuits-in-transformer-models)  
+The accompanying research write-up is available here:
+👉 [**Post: "Spectral Taxonomy of QK Circuits in Transformer Models"**](https://www.lesswrong.com/posts/Yig9fc7wAxKqG63Do/spectral-taxonomy-of-qk-circuits-in-transformer-models)
 *(provides background, figures, and theoretical motivation for this codebase).*
 
 ---
-# Key Components
-* `Generate_ESDs_and_plots.ipynb`\
-This notebook downloads pretrained transformer weights (e.g., Qwen3-4B),
-extracts the Query and Key projection matrices (`W_Q`, `W_K`),
-computes their singular-value spectra, and generates plots for `Classification_A` and `Classification_B`.
-  * The target model family can be specified by setting the `family` variable.
-Model lists for each family are defined in `models.py`.
 
-  * You can extend support for new models or families by editing `models.py`.
-Each model should follow the standard file and layer naming conventions
-and be accessible as `.safetensors` files.
+## Package layout
 
-  * Processed results are saved to `/content/qk-spectral-analysis/{model_family}/data/`.
+The core logic now lives in a Python package, `qk_spectral_analysis`, which is organised as follows:
 
-  * You can specify the target model family via:
+* `qk_spectral_analysis/download.py` – downloads model weights and computes spectral statistics, saving them as pickled NumPy arrays.
+* `qk_spectral_analysis/classification_a.py` – clusters eigenvalue histograms and renders the figures previously produced by `Classification_A.ipynb`.
+* `qk_spectral_analysis/classification_b.py` – reproduces the box-plot based diagnostics that were in `Classification_B.ipynb`.
+* `qk_spectral_analysis/utils.py` – numerical helpers for SVD computation and summary statistics.
+* `qk_spectral_analysis/models.py` – helper to enumerate supported Hugging Face model identifiers.
+
+Each module can be imported independently or accessed via the package root:
 
 ```python
-family = "Qwen3"  # or "Llama", "Gemma2", "Mistral"
+from qk_spectral_analysis import generate_family_spectra, generate_cluster_figures
 ```
 
-* `utils.py`\
-Utility functions for statistical analysis and numerically stable SVD computations.\
-`get_stats(values)` → returns `[min, max, mean, std, skew, kurtosis]`\
-`robust_lowrank_singular_values(A, B)` → efficiently computes the singular values of $AB^T$
+---
 
-* `models.py`\
-Defines model families and corresponding pretrained models.
+## Running the full pipeline
 
-* **Classification Notebooks**\
-For details about the Classifcation_A and Classifcation_B refer to the post linked above.
+The notebook `spectral_analysis_pipeline.ipynb` orchestrates the complete workflow. Configure the family, clustering, and binning parameters in the first cell and then execute the remaining cells to:
 
-# Citation
+1. Download the requested models and compute their spectral statistics.
+2. Produce the clustered eigenvalue spectrum figures.
+3. Render the statistical box plots.
+
+All artefacts are saved under `<family>/data`, `<family>/ESDs`, and `<family>/plots` respectively.
+
+The legacy notebooks (`Generate_ESDs_and_plots.ipynb`, `Classification_A.ipynb`, and `Classification_B.ipynb`) are kept for reference but are no longer required for normal usage.
+
+---
+
+## Citation
+
 If you use or build upon this work, please cite or reference:
 
 Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\
