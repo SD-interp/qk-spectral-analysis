@@ -55,5 +55,5 @@ The legacy notebooks (`Generate_ESDs_and_plots.ipynb`, `Classification_A.ipynb`,
 
 If you use or build upon this work, please cite or reference:
 
-Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\\
+Shantanu Darveshi (2025). Spectral Taxonomy of QK Circuits in Transformer Models\
 https://github.com/SD-interp/qk-spectral-analysis
