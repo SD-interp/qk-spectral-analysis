@@ -15,71 +15,39 @@ while still allowing interactive exploration from the unified entry point,
 
 The accompanying research write-up is available here:
 👉 [**Post: "Spectral Taxonomy of QK Circuits in Transformer Models"**](https://www.lesswrong.com/posts/Yig9fc7wAxKqG63Do/spectral-taxonomy-of-qk-circuits-in-transformer-models)
-*(provides background, figures, and theoretical motivation for this codebase).* A
-Colab notebook mirroring the original exploratory analysis is also available
-[here](https://colab.research.google.com/drive/1TH_MnMAdMZlacvNmQZUK1N-Tlx7m21P7?usp=drive_link).
+*(provides background, figures, and theoretical motivation for this codebase).*
 
 ---
 
 ## Package layout
 
-The core logic lives in the `qk_spectral_analysis` package:
+The core logic now lives in a Python package, `qk_spectral_analysis`, which is organised as follows:
 
-* `download.py` – download model weights, compute spectral statistics, and cache
-  them as pickled NumPy arrays.
-* `classification_a.py` – cluster eigenvalue histograms and render the figures
-  produced by the original *Classification_A* notebook.
-* `classification_b.py` – reproduce the statistical box plots that lived in the
-  *Classification_B* notebook.
-* `utils.py` – numerical helpers shared across the other modules.
-* `models.py` – catalogue of supported model families and their Hugging Face
-  identifiers.
+* `qk_spectral_analysis/download.py` – downloads model weights and computes spectral statistics, saving them as pickled NumPy arrays.
+* `qk_spectral_analysis/classification_a.py` – clusters eigenvalue histograms and renders the figures previously produced by `Classification_A.ipynb`.
+* `qk_spectral_analysis/classification_b.py` – reproduces the box-plot based diagnostics that were in `Classification_B.ipynb`.
+* `qk_spectral_analysis/utils.py` – numerical helpers for SVD computation and summary statistics.
+* `qk_spectral_analysis/models.py` – helper to enumerate supported Hugging Face model identifiers.
 
-All public helpers are re-exported from `qk_spectral_analysis.__init__` so they
-can be imported directly, e.g. `from qk_spectral_analysis import
-generate_family_spectra`.
+Each module can be imported independently or accessed via the package root:
+
+```python
+from qk_spectral_analysis import generate_family_spectra, generate_cluster_figures
+```
 
 ---
 
-## Running the pipeline notebook
+## Running the full pipeline
 
-The notebook `spectral_analysis_pipeline.ipynb` orchestrates the complete
-workflow. Configure the model family, clustering, and binning parameters in the
-first cell and then execute the remaining cells to:
+The notebook `spectral_analysis_pipeline.ipynb` orchestrates the complete workflow. Configure the family, clustering, and binning parameters in the first cell and then execute the remaining cells to:
 
 1. Download the requested models and compute their spectral statistics.
 2. Produce the clustered eigenvalue spectrum figures.
 3. Render the statistical box plots.
 
-All artefacts are saved under `<family>/data`, `<family>/ESDs`, and
-`<family>/plots` respectively.
+All artefacts are saved under `<family>/data`, `<family>/ESDs`, and `<family>/plots` respectively.
 
-### Environment setup
-
-Install the Python dependencies into your preferred environment and ensure that
-`t` (PyTorch) can see a GPU if you want accelerated downloads:
-
-```bash
-pip install torch einops huggingface_hub safetensors transformers seaborn umap-learn statsmodels
-```
-
-The pipeline defaults to `cuda` when available and falls back to CPU otherwise.
-Pass `device="cpu"` to `generate_family_spectra` to override this behaviour.
-
----
-
-## Command line usage
-
-While the notebook is the primary entry point, the modular design makes it easy
-to drive the workflow from a script. For example:
-
-```python
-from qk_spectral_analysis import generate_family_spectra, list_families
-
-for family in list_families():
-    print(f"Processing {family} models")
-    generate_family_spectra(family, output_root=".")
-```
+The legacy notebooks (`Generate_ESDs_and_plots.ipynb`, `Classification_A.ipynb`, and `Classification_B.ipynb`) are kept for reference but are no longer required for normal usage.
 
 ---
 
